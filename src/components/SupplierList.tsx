@@ -2,8 +2,9 @@ import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Phone, Eye, MapPin, Sprout } from "lucide-react";
+import { Phone, Eye, MapPin, Sprout, Bell } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import TriggerNotificationDialog from "./TriggerNotificationDialog";
 
 interface SupplierListProps {
   searchQuery: string;
@@ -12,6 +13,8 @@ interface SupplierListProps {
 
 const SupplierList = ({ searchQuery, filter }: SupplierListProps) => {
   const navigate = useNavigate();
+  const [notificationDialogOpen, setNotificationDialogOpen] = useState(false);
+  const [selectedSupplier, setSelectedSupplier] = useState<{ id: number; name: string } | null>(null);
 
   const mockSuppliers = [
     {
@@ -107,8 +110,9 @@ const SupplierList = ({ searchQuery, filter }: SupplierListProps) => {
   };
 
   return (
-    <div className="space-y-4">
-      {filteredSuppliers.map((supplier) => (
+    <>
+      <div className="space-y-4">
+        {filteredSuppliers.map((supplier) => (
         <Card key={supplier.id} className="transition-all duration-300 hover:shadow-md border-l-4 border-l-primary">
           <CardHeader>
             <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3">
@@ -137,6 +141,17 @@ const SupplierList = ({ searchQuery, filter }: SupplierListProps) => {
                 >
                   <Eye className="h-4 w-4 mr-1" />
                   View
+                </Button>
+                <Button 
+                  size="sm" 
+                  variant="outline"
+                  onClick={() => {
+                    setSelectedSupplier({ id: supplier.id, name: supplier.name });
+                    setNotificationDialogOpen(true);
+                  }}
+                >
+                  <Bell className="h-4 w-4 mr-1" />
+                  Notify
                 </Button>
                 <Button size="sm">
                   <Phone className="h-4 w-4 mr-1" />
@@ -172,15 +187,25 @@ const SupplierList = ({ searchQuery, filter }: SupplierListProps) => {
             </div>
           </CardContent>
         </Card>
-      ))}
-      {filteredSuppliers.length === 0 && (
-        <Card>
-          <CardContent className="py-12 text-center">
-            <p className="text-muted-foreground">No suppliers found matching your criteria.</p>
-          </CardContent>
-        </Card>
+        ))}
+        {filteredSuppliers.length === 0 && (
+          <Card>
+            <CardContent className="py-12 text-center">
+              <p className="text-muted-foreground">No suppliers found matching your criteria.</p>
+            </CardContent>
+          </Card>
+        )}
+      </div>
+      
+      {selectedSupplier && (
+        <TriggerNotificationDialog
+          open={notificationDialogOpen}
+          onOpenChange={setNotificationDialogOpen}
+          supplierName={selectedSupplier.name}
+          supplierId={selectedSupplier.id}
+        />
       )}
-    </div>
+    </>
   );
 };
 

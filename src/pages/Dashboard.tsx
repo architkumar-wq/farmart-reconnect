@@ -35,7 +35,7 @@ const Dashboard = () => {
               <ListChecks className="mr-2 h-4 w-4" />
               Leads by Criteria
             </Button>
-            <Button className="bg-primary hover:bg-primary-hover">
+            <Button className="bg-primary hover:bg-primary-hover" onClick={() => navigate("/calling")}>
               <Phone className="mr-2 h-4 w-4" />
               Start Calling
             </Button>
