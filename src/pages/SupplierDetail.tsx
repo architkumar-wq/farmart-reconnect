@@ -1,0 +1,197 @@
+import { useParams, useNavigate } from "react-router-dom";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { ArrowLeft, Phone, MessageSquare, User, MapPin, Calendar, TrendingUp, Package } from "lucide-react";
+
+const SupplierDetail = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  // Mock data - in real app this would be fetched based on ID
+  const supplier = {
+    id: 1,
+    name: "Rajesh Kumar",
+    location: "Nashik, Maharashtra",
+    phone: "+91 98765 43210",
+    onboardedDate: "May 2023",
+    onboardedBy: "Surbhi Sharma (PA)",
+    currentPO: "PO-2024-1532",
+    firstTransactionDate: "June 2023",
+    lastTransactionDate: "July 2024",
+    totalTransactions: 12,
+    totalVolume: "150 tons",
+    aiSummary: "This supplier was onboarded in May 2023 and last supplied 25 tons of Maize in July 2024 to Farmart and primarily sold this to Mahesh Edible. Most of the orders were GMV and handled by PA - Abhishek.",
+    lastConversation: "The last time Surbhi has spoken to this supplier and he was not very happy with the rates offered by Farmart. He also shared that his payments were delayed. Overall he agreed to be in contact but was not sure of working with Farmart as he is working with local financiers / brokers.",
+    focusPoints: "Focus on the fact that we are doing large volume buying in this area and supplying to multiple local and regional buyers are similar and higher prices that he sold last year. Also mention that now he can view all ledgers and order information in FarmartApp, which no other local broker / financier shows since he has still not seen the app.",
+    keyBuyers: ["Mahesh Edible", "Local Mills", "Gujarat Traders"],
+    cropTransactions: [
+      { crop: "Maize", quantity: "100 tons", transactions: 8, lastDate: "July 2024" },
+      { crop: "Wheat", quantity: "35 tons", transactions: 3, lastDate: "March 2024" },
+      { crop: "Soybean", quantity: "15 tons", transactions: 1, lastDate: "January 2024" }
+    ]
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-accent/30 to-background">
+      <div className="container mx-auto p-6 space-y-6">
+        {/* Header */}
+        <div className="flex items-center gap-4">
+          <Button variant="outline" size="icon" onClick={() => navigate("/")}>
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+          <div className="flex-1">
+            <h1 className="text-3xl font-bold text-foreground">{supplier.name}</h1>
+            <p className="text-muted-foreground flex items-center gap-1 mt-1">
+              <MapPin className="h-4 w-4" />
+              {supplier.location}
+            </p>
+          </div>
+          <div className="flex gap-2">
+            <Button variant="outline">
+              <MessageSquare className="h-4 w-4 mr-2" />
+              Message
+            </Button>
+            <Button>
+              <Phone className="h-4 w-4 mr-2" />
+              Call Now
+            </Button>
+          </div>
+        </div>
+
+        {/* AI Summaries */}
+        <div className="grid gap-4">
+          <Card className="border-l-4 border-l-primary">
+            <CardHeader>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <TrendingUp className="h-5 w-5 text-primary" />
+                AI-Generated Engagement Summary
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-foreground leading-relaxed">{supplier.aiSummary}</p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-l-4 border-l-secondary">
+            <CardHeader>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <MessageSquare className="h-5 w-5 text-secondary" />
+                Last Conversation Summary
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-foreground leading-relaxed">{supplier.lastConversation}</p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-l-4 border-l-success bg-success/5">
+            <CardHeader>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <Package className="h-5 w-5 text-success" />
+                Call Focus Points
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-foreground leading-relaxed font-medium">{supplier.focusPoints}</p>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Basic Information */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Supplier Overview</CardTitle>
+            <CardDescription>Key information and metrics</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">Onboarded On</p>
+                <p className="font-semibold flex items-center gap-2">
+                  <Calendar className="h-4 w-4 text-primary" />
+                  {supplier.onboardedDate}
+                </p>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">Onboarded By</p>
+                <p className="font-semibold flex items-center gap-2">
+                  <User className="h-4 w-4 text-primary" />
+                  {supplier.onboardedBy}
+                </p>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">Current PO</p>
+                <Badge variant="outline" className="font-mono">{supplier.currentPO}</Badge>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">First Transaction</p>
+                <p className="font-semibold">{supplier.firstTransactionDate}</p>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">Last Transaction</p>
+                <p className="font-semibold">{supplier.lastTransactionDate}</p>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">Total Volume</p>
+                <p className="font-semibold">{supplier.totalVolume}</p>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">Phone</p>
+                <p className="font-semibold">{supplier.phone}</p>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">Total Transactions</p>
+                <p className="font-semibold">{supplier.totalTransactions}</p>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">Key Buyers</p>
+                <div className="flex flex-wrap gap-1">
+                  {supplier.keyBuyers.map((buyer, idx) => (
+                    <Badge key={idx} variant="secondary" className="text-xs">
+                      {buyer}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Crop-wise Transactions */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Crop-wise Transaction History</CardTitle>
+            <CardDescription>Detailed breakdown by commodity</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Crop</TableHead>
+                  <TableHead>Total Quantity</TableHead>
+                  <TableHead>Number of Transactions</TableHead>
+                  <TableHead>Last Transaction Date</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {supplier.cropTransactions.map((transaction, idx) => (
+                  <TableRow key={idx}>
+                    <TableCell className="font-medium">{transaction.crop}</TableCell>
+                    <TableCell>{transaction.quantity}</TableCell>
+                    <TableCell>{transaction.transactions}</TableCell>
+                    <TableCell>{transaction.lastDate}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+};
+
+export default SupplierDetail;
