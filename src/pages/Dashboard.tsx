@@ -4,12 +4,14 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Phone, Search, Filter, Bell, TrendingUp, Users, Calendar } from "lucide-react";
+import { Phone, Search, Filter, Bell, TrendingUp, Users, Calendar, ListChecks } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import SupplierList from "@/components/SupplierList";
 import StatsCards from "@/components/StatsCards";
 import NotificationPanel from "@/components/NotificationPanel";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState("all");
 
@@ -28,6 +30,10 @@ const Dashboard = () => {
               <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-destructive text-destructive-foreground text-xs flex items-center justify-center">
                 3
               </span>
+            </Button>
+            <Button variant="outline" onClick={() => navigate("/leads")}>
+              <ListChecks className="mr-2 h-4 w-4" />
+              Leads by Criteria
             </Button>
             <Button className="bg-primary hover:bg-primary-hover">
               <Phone className="mr-2 h-4 w-4" />
