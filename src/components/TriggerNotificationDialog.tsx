@@ -20,6 +20,7 @@ const TriggerNotificationDialog = ({ open, onOpenChange, supplierName, supplierI
   const [notificationType, setNotificationType] = useState("");
   const [message, setMessage] = useState("");
   const [recipients, setRecipients] = useState({
+    supplier: false,
     pa: false,
     reportingManager: false,
     stateHead: false
@@ -65,15 +66,15 @@ const TriggerNotificationDialog = ({ open, onOpenChange, supplierName, supplierI
     // Reset form
     setNotificationType("");
     setMessage("");
-    setRecipients({ pa: false, reportingManager: false, stateHead: false });
+    setRecipients({ supplier: false, pa: false, reportingManager: false, stateHead: false });
     onOpenChange(false);
   };
 
   const notificationTemplates = {
-    reactivation: `Supplier ${supplierName} can be reactivated. Last conversation was positive. Ready for follow-up.`,
-    firstPO: `${supplierName} has booked their first PO. Please follow up to ensure smooth dispatch.`,
-    paymentComplete: `${supplierName}'s payment has been completed. Good opportunity for next order discussion.`,
-    callback: `Callback scheduled with ${supplierName}. Please ensure timely follow-up.`,
+    reactivation: `Dear ${supplierName}, we hope this message finds you well. We noticed it's been a while since we last connected, and we'd love to explore new opportunities to work together. Our team is ready to support you with competitive rates and seamless service. Please let us know if you'd like to discuss further.`,
+    firstPO: `Thank you for booking your PO with us! We're reaching out to ensure your overall experience with FarMart has been positive. Please let us know if you've encountered any issues so we can make your experience even smoother.`,
+    paymentComplete: `We're pleased to confirm that your payment has been successfully processed. Thank you for your continued partnership with FarMart. We look forward to supporting your next transaction and ensuring a seamless experience.`,
+    callback: `This is a reminder that we have a scheduled callback with ${supplierName}. Please ensure timely follow-up to maintain strong communication and address any concerns they may have.`,
     custom: ""
   };
 
@@ -131,6 +132,20 @@ const TriggerNotificationDialog = ({ open, onOpenChange, supplierName, supplierI
             <div className="space-y-3 p-4 bg-muted/50 rounded-md">
               <div className="flex items-center space-x-3">
                 <Checkbox
+                  id="supplier"
+                  checked={recipients.supplier}
+                  onCheckedChange={(checked) => 
+                    setRecipients({ ...recipients, supplier: checked as boolean })
+                  }
+                />
+                <label htmlFor="supplier" className="flex items-center gap-2 text-sm font-medium cursor-pointer">
+                  <User className="h-4 w-4 text-primary" />
+                  Supplier
+                </label>
+              </div>
+
+              <div className="flex items-center space-x-3">
+                <Checkbox
                   id="pa"
                   checked={recipients.pa}
                   onCheckedChange={(checked) => 
@@ -139,7 +154,7 @@ const TriggerNotificationDialog = ({ open, onOpenChange, supplierName, supplierI
                 />
                 <label htmlFor="pa" className="flex items-center gap-2 text-sm font-medium cursor-pointer">
                   <User className="h-4 w-4 text-primary" />
-                  Onboarded By (PA)
+                  Onboarded by (PA)
                 </label>
               </div>
 
@@ -153,7 +168,7 @@ const TriggerNotificationDialog = ({ open, onOpenChange, supplierName, supplierI
                 />
                 <label htmlFor="manager" className="flex items-center gap-2 text-sm font-medium cursor-pointer">
                   <UserCog className="h-4 w-4 text-primary" />
-                  Reporting Manager
+                  Reporting Manager (RPM)
                 </label>
               </div>
 

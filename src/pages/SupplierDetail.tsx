@@ -24,7 +24,17 @@ const SupplierDetail = () => {
     totalTransactions: 12,
     totalVolume: "150 tons",
     aiSummary: "This supplier was onboarded in May 2023 and last supplied 25 tons of Maize in July 2024 to Farmart and primarily sold this to Mahesh Edible. Most of the orders were GMV and handled by PA - Abhishek.",
-    lastConversation: "The last time Surbhi has spoken to this supplier and he was not very happy with the rates offered by Farmart. He also shared that his payments were delayed. Overall he agreed to be in contact but was not sure of working with Farmart as he is working with local financiers / brokers.",
+    pastConversations: [
+      {
+        date: "November 15, 2024",
+        summary: "The last time Surbhi has spoken to this supplier and he was not very happy with the rates offered by Farmart. He also shared that his payments were delayed. Overall he agreed to be in contact but was not sure of working with Farmart as he is working with local financiers / brokers."
+      },
+      {
+        date: "October 8, 2024",
+        summary: "Initial follow-up call. Supplier expressed interest in continuing relationship but was concerned about payment timelines. Discussed upcoming harvest season and potential volumes."
+      }
+    ],
+    buyerPrice: "₹28,500 per ton",
     focusPoints: "Focus on the fact that we are doing large volume buying in this area and supplying to multiple local and regional buyers are similar and higher prices that he sold last year. Also mention that now he can view all ledgers and order information in FarmartApp, which no other local broker / financier shows since he has still not seen the app.",
     keyBuyers: ["Mahesh Edible", "Local Mills", "Gujarat Traders"],
     cropTransactions: [
@@ -79,11 +89,19 @@ const SupplierDetail = () => {
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
                 <MessageSquare className="h-5 w-5 text-secondary" />
-                Last Conversation Summary
+                Past Conversation Summary
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <p className="text-foreground leading-relaxed">{supplier.lastConversation}</p>
+            <CardContent className="space-y-4">
+              {supplier.pastConversations.map((conversation: any, idx: number) => (
+                <div key={idx} className={`${idx > 0 ? 'pt-4 border-t border-border' : ''}`}>
+                  <p className="text-xs text-muted-foreground mb-2 flex items-center gap-1">
+                    <Calendar className="h-3 w-3" />
+                    {conversation.date}
+                  </p>
+                  <p className="text-foreground leading-relaxed">{conversation.summary}</p>
+                </div>
+              ))}
             </CardContent>
           </Card>
 
@@ -137,6 +155,10 @@ const SupplierDetail = () => {
               <div>
                 <p className="text-sm text-muted-foreground mb-1">Total Volume</p>
                 <p className="font-semibold">{supplier.totalVolume}</p>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">Buyer Price</p>
+                <p className="font-semibold text-success">{supplier.buyerPrice}</p>
               </div>
               <div>
                 <p className="text-sm text-muted-foreground mb-1">Phone</p>

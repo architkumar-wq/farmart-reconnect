@@ -5,8 +5,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { Badge } from "@/components/ui/badge";
-import { X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface AddSupplierDialogProps {
@@ -17,61 +15,38 @@ interface AddSupplierDialogProps {
 const AddSupplierDialog = ({ open, onOpenChange }: AddSupplierDialogProps) => {
   const { toast } = useToast();
   const [formData, setFormData] = useState({
-    name: "",
-    phone: "",
-    location: "",
-    state: "",
-    crops: [] as string[],
+    supplierNumber: "",
+    supplierId: "",
     category: "",
-    priority: "medium",
-    notes: "",
-    assignedTo: ""
+    assignTo: "",
+    additionalNotes: ""
   });
-  const [currentCrop, setCurrentCrop] = useState("");
-
-  const handleAddCrop = () => {
-    if (currentCrop && !formData.crops.includes(currentCrop)) {
-      setFormData({ ...formData, crops: [...formData.crops, currentCrop] });
-      setCurrentCrop("");
-    }
-  };
-
-  const handleRemoveCrop = (crop: string) => {
-    setFormData({ ...formData, crops: formData.crops.filter(c => c !== crop) });
-  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Validation
-    if (!formData.name || !formData.phone || !formData.location || !formData.category) {
+    if (!formData.supplierNumber || !formData.supplierId || !formData.category) {
       toast({
         title: "Missing Information",
-        description: "Please fill in all required fields",
+        description: "Please fill in Supplier Number, Supplier ID, and Category",
         variant: "destructive"
       });
       return;
     }
 
-    // Here you would normally save to database
     console.log("Saving supplier:", formData);
     
     toast({
       title: "Supplier Added",
-      description: `${formData.name} has been added successfully`,
+      description: `Supplier ${formData.supplierId} has been added successfully`,
     });
 
-    // Reset form
     setFormData({
-      name: "",
-      phone: "",
-      location: "",
-      state: "",
-      crops: [],
+      supplierNumber: "",
+      supplierId: "",
       category: "",
-      priority: "medium",
-      notes: "",
-      assignedTo: ""
+      assignTo: "",
+      additionalNotes: ""
     });
     
     onOpenChange(false);
@@ -88,145 +63,48 @@ const AddSupplierDialog = ({ open, onOpenChange }: AddSupplierDialogProps) => {
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Basic Information */}
           <div className="space-y-4">
-            <h3 className="text-sm font-semibold text-foreground">Basic Information</h3>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="name">Supplier Name *</Label>
-                <Input
-                  id="name"
-                  placeholder="Enter full name"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="phone">Phone Number *</Label>
-                <Input
-                  id="phone"
-                  type="tel"
-                  placeholder="+91 XXXXX XXXXX"
-                  value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  required
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="location">Location *</Label>
-                <Input
-                  id="location"
-                  placeholder="City/District"
-                  value={formData.location}
-                  onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="state">State</Label>
-                <Select value={formData.state} onValueChange={(value) => setFormData({ ...formData, state: value })}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select state" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="maharashtra">Maharashtra</SelectItem>
-                    <SelectItem value="gujarat">Gujarat</SelectItem>
-                    <SelectItem value="telangana">Telangana</SelectItem>
-                    <SelectItem value="karnataka">Karnataka</SelectItem>
-                    <SelectItem value="up">Uttar Pradesh</SelectItem>
-                    <SelectItem value="mp">Madhya Pradesh</SelectItem>
-                    <SelectItem value="rajasthan">Rajasthan</SelectItem>
-                    <SelectItem value="punjab">Punjab</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-          </div>
-
-          {/* Crops */}
-          <div className="space-y-2">
-            <Label htmlFor="crops">Crops Traded</Label>
-            <div className="flex gap-2">
+            <div className="space-y-2">
+              <Label htmlFor="supplierNumber">Supplier Number *</Label>
               <Input
-                id="crops"
-                placeholder="Enter crop name"
-                value={currentCrop}
-                onChange={(e) => setCurrentCrop(e.target.value)}
-                onKeyPress={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    handleAddCrop();
-                  }
-                }}
+                id="supplierNumber"
+                placeholder="Enter supplier phone number"
+                value={formData.supplierNumber}
+                onChange={(e) => setFormData({ ...formData, supplierNumber: e.target.value })}
+                required
               />
-              <Button type="button" onClick={handleAddCrop} variant="outline">
-                Add
-              </Button>
-            </div>
-            {formData.crops.length > 0 && (
-              <div className="flex flex-wrap gap-2 mt-2">
-                {formData.crops.map((crop, idx) => (
-                  <Badge key={idx} variant="secondary" className="pl-2 pr-1">
-                    {crop}
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveCrop(crop)}
-                      className="ml-1 hover:bg-muted-foreground/20 rounded-full p-0.5"
-                    >
-                      <X className="h-3 w-3" />
-                    </button>
-                  </Badge>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Categorization */}
-          <div className="space-y-4">
-            <h3 className="text-sm font-semibold text-foreground">Categorization</h3>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="category">Lead Category *</Label>
-                <Select value={formData.category} onValueChange={(value) => setFormData({ ...formData, category: value })} required>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="seasonal">Seasonal Reactivation</SelectItem>
-                    <SelectItem value="pending">Pending Dispatch</SelectItem>
-                    <SelectItem value="payment">Payment Complete</SelectItem>
-                    <SelectItem value="new">New Supplier</SelectItem>
-                    <SelectItem value="other">Other</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="priority">Priority Level</Label>
-                <Select value={formData.priority} onValueChange={(value) => setFormData({ ...formData, priority: value })}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="high">High</SelectItem>
-                    <SelectItem value="medium">Medium</SelectItem>
-                    <SelectItem value="low">Low</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="assignedTo">Assign To Agent</Label>
-              <Select value={formData.assignedTo} onValueChange={(value) => setFormData({ ...formData, assignedTo: value })}>
+              <Label htmlFor="supplierId">Supplier ID *</Label>
+              <Input
+                id="supplierId"
+                placeholder="e.g., SUP-2024-001"
+                value={formData.supplierId}
+                onChange={(e) => setFormData({ ...formData, supplierId: e.target.value })}
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="category">Category *</Label>
+              <Select value={formData.category} onValueChange={(value) => setFormData({ ...formData, category: value })} required>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select category" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="seasonal">Seasonal Reactivation</SelectItem>
+                  <SelectItem value="pending">Pending Dispatch</SelectItem>
+                  <SelectItem value="payment">Payment Complete</SelectItem>
+                  <SelectItem value="new">New Supplier</SelectItem>
+                  <SelectItem value="other">Other</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="assignTo">Assign To Agent</Label>
+              <Select value={formData.assignTo} onValueChange={(value) => setFormData({ ...formData, assignTo: value })}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select agent" />
                 </SelectTrigger>
@@ -239,18 +117,17 @@ const AddSupplierDialog = ({ open, onOpenChange }: AddSupplierDialogProps) => {
                 </SelectContent>
               </Select>
             </div>
-          </div>
 
-          {/* Notes */}
-          <div className="space-y-2">
-            <Label htmlFor="notes">Additional Notes</Label>
-            <Textarea
-              id="notes"
-              placeholder="Any additional information about the supplier..."
-              value={formData.notes}
-              onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-              rows={3}
-            />
+            <div className="space-y-2">
+              <Label htmlFor="additionalNotes">Additional Notes</Label>
+              <Textarea
+                id="additionalNotes"
+                placeholder="Enter any additional notes or remarks..."
+                value={formData.additionalNotes}
+                onChange={(e) => setFormData({ ...formData, additionalNotes: e.target.value })}
+                rows={4}
+              />
+            </div>
           </div>
 
           <DialogFooter>
