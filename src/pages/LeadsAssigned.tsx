@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, Plus, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
-import LeadCard from "@/components/LeadCard";
+import LeadsTable from "@/components/LeadsTable";
 import AddSupplierDialog from "@/components/AddSupplierDialog";
 
 const LeadsAssigned = () => {
@@ -43,6 +43,8 @@ const LeadsAssigned = () => {
       location: "Nashik, Maharashtra",
       crop: "Maize",
       lastTransaction: "July 2024",
+      poNumber: "PO-2024-1532",
+      doNumber: "DO-2024-0445",
       reason: "Sold 25 tons 3 months ago, Maize is in season",
       similarBuyers: ["Mahesh Edible", "Local Mills"],
       assignedTo: "Surbhi Sharma",
@@ -54,6 +56,8 @@ const LeadsAssigned = () => {
       location: "Meerut, Uttar Pradesh",
       crop: "Wheat",
       lastTransaction: "June 2024",
+      poNumber: "PO-2024-1421",
+      doNumber: "DO-2024-0334",
       reason: "Wheat season starting, similar buyers active",
       similarBuyers: ["Flour Mills Co"],
       assignedTo: "Surbhi Sharma",
@@ -68,6 +72,7 @@ const LeadsAssigned = () => {
       location: "Surat, Gujarat",
       crop: "Cotton",
       poNumber: "PO-2024-1533",
+      doNumber: "DO-2024-0556",
       createdDate: "September 2024",
       reason: "First PO created but dispatch pending",
       assignedTo: "Divya Singh",
@@ -79,6 +84,7 @@ const LeadsAssigned = () => {
       location: "Belgaum, Karnataka",
       crop: "Sugarcane",
       poNumber: "PO-2024-1548",
+      doNumber: "DO-2024-0598",
       createdDate: "October 2024",
       reason: "PO ready for 2 weeks, awaiting dispatch",
       assignedTo: "Divya Singh",
@@ -92,6 +98,8 @@ const LeadsAssigned = () => {
       name: "Suresh Reddy",
       location: "Warangal, Telangana",
       crop: "Rice",
+      poNumber: "PO-2024-1654",
+      doNumber: "DO-2024-0667",
       paymentStatus: "99%",
       orderValue: "₹4.8L",
       lastDispatch: "October 2024",
@@ -179,17 +187,13 @@ const LeadsAssigned = () => {
                     <div className="text-sm text-muted-foreground mb-4">
                       Total Leads: <span className="font-semibold text-foreground">{categoryLeads.length}</span>
                     </div>
-                    <div className="space-y-4">
-                      {categoryLeads.length > 0 ? (
-                        categoryLeads.map((lead) => (
-                          <LeadCard key={lead.id} lead={lead} category={category.key} />
-                        ))
-                      ) : (
-                        <p className="text-sm text-muted-foreground text-center py-8">
-                          No leads in this category yet
-                        </p>
-                      )}
-                    </div>
+                    {categoryLeads.length > 0 ? (
+                      <LeadsTable leads={categoryLeads} category={category.key} />
+                    ) : (
+                      <p className="text-sm text-muted-foreground text-center py-8">
+                        No leads in this category yet
+                      </p>
+                    )}
                   </CardContent>
                 </Card>
               </div>

@@ -6,7 +6,7 @@ import { Search, Filter, ListChecks } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import SupplierList from "@/components/SupplierList";
+import SingleCardView from "@/components/SingleCardView";
 import NotificationPanel from "@/components/NotificationPanel";
 
 const Dashboard = () => {
@@ -24,10 +24,16 @@ const Dashboard = () => {
             <h1 className="text-4xl font-bold text-foreground mb-2">FarmartApp CRM</h1>
             <p className="text-muted-foreground">Supplier Reactivation Dashboard</p>
           </div>
-          <Button variant="outline" onClick={() => navigate("/leads")}>
-            <ListChecks className="mr-2 h-4 w-4" />
-            Leads by Criteria
-          </Button>
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={() => navigate("/calls-tracking")}>
+              <ListChecks className="mr-2 h-4 w-4" />
+              Calls Tracking
+            </Button>
+            <Button variant="outline" onClick={() => navigate("/leads")}>
+              <ListChecks className="mr-2 h-4 w-4" />
+              Leads by Criteria
+            </Button>
+          </div>
         </div>
 
         {/* Search and Filters */}
@@ -54,10 +60,6 @@ const Dashboard = () => {
                   <SelectItem value="not_picked">Not Picked Up</SelectItem>
                 </SelectContent>
               </Select>
-              <Button variant="outline">
-                <Filter className="mr-2 h-4 w-4" />
-                More Filters
-              </Button>
             </div>
           </CardHeader>
         </Card>
@@ -70,7 +72,7 @@ const Dashboard = () => {
           </TabsList>
 
           <TabsContent value="calls" className="space-y-4">
-            <SupplierList searchQuery={searchQuery} filter="all" callStatusFilter={callStatusFilter} />
+            <SingleCardView searchQuery={searchQuery} callStatusFilter={callStatusFilter} />
           </TabsContent>
 
           <TabsContent value="notifications" className="space-y-4">

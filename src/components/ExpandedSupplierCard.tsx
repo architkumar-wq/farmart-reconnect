@@ -14,9 +14,10 @@ interface ExpandedSupplierCardProps {
   supplier: any;
   callStatus: string;
   onCallStatusChange: (status: string) => void;
+  onNotesAdded?: () => void;
 }
 
-const ExpandedSupplierCard = ({ supplier, callStatus, onCallStatusChange }: ExpandedSupplierCardProps) => {
+const ExpandedSupplierCard = ({ supplier, callStatus, onCallStatusChange, onNotesAdded }: ExpandedSupplierCardProps) => {
   const navigate = useNavigate();
   const [notificationDialogOpen, setNotificationDialogOpen] = useState(false);
   const [aiSummaryOpen, setAiSummaryOpen] = useState(false);
@@ -50,6 +51,9 @@ const ExpandedSupplierCard = ({ supplier, callStatus, onCallStatusChange }: Expa
   const saveNotes = () => {
     console.log("Saving notes:", callNotes);
     setNotesDialogOpen(false);
+    if (onNotesAdded) {
+      onNotesAdded();
+    }
   };
 
   return (
@@ -62,7 +66,6 @@ const ExpandedSupplierCard = ({ supplier, callStatus, onCallStatusChange }: Expa
                 <h3 className="text-xl font-semibold">{supplier.name}</h3>
                 {getPriorityBadge(supplier.priority)}
                 {getStatusBadge(supplier.status)}
-                <Badge variant="outline" className="font-mono text-xs">{supplier.supplierId}</Badge>
               </div>
               <div className="flex items-center gap-4 text-sm text-muted-foreground flex-wrap">
                 <span className="flex items-center gap-1">
@@ -128,9 +131,12 @@ const ExpandedSupplierCard = ({ supplier, callStatus, onCallStatusChange }: Expa
             <div>
               <span className="text-muted-foreground flex items-center gap-1">
                 <Package className="h-3 w-3" />
-                Current PO:
+                PO/DO Number:
               </span>
-              <p className="font-medium font-mono text-xs">{supplier.currentPO}</p>
+              <p className="font-medium font-mono text-xs">
+                {supplier.currentPO}
+                {supplier.doNumber && ` / ${supplier.doNumber}`}
+              </p>
             </div>
             <div>
               <span className="text-muted-foreground">Last Transaction:</span>
