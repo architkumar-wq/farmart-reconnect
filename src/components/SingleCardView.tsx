@@ -151,6 +151,13 @@ const SingleCardView = ({ searchQuery, callStatusFilter }: SingleCardViewProps) 
     setCurrentIndex(0);
   }, [searchQuery, callStatusFilter]);
 
+  // Ensure currentIndex is valid when filteredSuppliers changes
+  useEffect(() => {
+    if (currentIndex >= filteredSuppliers.length && filteredSuppliers.length > 0) {
+      setCurrentIndex(0);
+    }
+  }, [filteredSuppliers.length, currentIndex]);
+
   if (filteredSuppliers.length === 0) {
     return (
       <Card>
@@ -162,6 +169,17 @@ const SingleCardView = ({ searchQuery, callStatusFilter }: SingleCardViewProps) 
   }
 
   const currentSupplier = filteredSuppliers[currentIndex];
+
+  // Safety check to prevent undefined access
+  if (!currentSupplier) {
+    return (
+      <Card>
+        <CardContent className="py-12 text-center">
+          <p className="text-muted-foreground">Loading supplier data...</p>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <div className="relative">
