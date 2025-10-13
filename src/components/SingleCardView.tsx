@@ -4,10 +4,9 @@ import ExpandedSupplierCard from "./ExpandedSupplierCard";
 
 interface SingleCardViewProps {
   searchQuery: string;
-  callStatusFilter: string;
 }
 
-const SingleCardView = ({ searchQuery, callStatusFilter }: SingleCardViewProps) => {
+const SingleCardView = ({ searchQuery }: SingleCardViewProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [callStatuses, setCallStatuses] = useState<Record<number, string>>({});
@@ -121,13 +120,11 @@ const SingleCardView = ({ searchQuery, callStatusFilter }: SingleCardViewProps) 
   ];
 
   const filteredSuppliers = mockSuppliers.filter(supplier => {
-    const matchesSearch = supplier.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    const matchesSearch = searchQuery === "" ||
+      supplier.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       supplier.phone.includes(searchQuery);
     
-    const matchesCallStatus = callStatusFilter === "all" || 
-      (callStatuses[supplier.id] || "assigned") === callStatusFilter;
-    
-    return matchesSearch && matchesCallStatus;
+    return matchesSearch;
   });
 
   const handleCallStatusChange = (supplierId: number, status: string) => {
@@ -149,7 +146,7 @@ const SingleCardView = ({ searchQuery, callStatusFilter }: SingleCardViewProps) 
 
   useEffect(() => {
     setCurrentIndex(0);
-  }, [searchQuery, callStatusFilter]);
+  }, [searchQuery]);
 
   // Ensure currentIndex is valid when filteredSuppliers changes
   useEffect(() => {

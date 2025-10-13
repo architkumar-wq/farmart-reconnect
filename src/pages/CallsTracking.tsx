@@ -142,6 +142,7 @@ const CallsTracking = () => {
                     <TableHead>Assigned To</TableHead>
                     <TableHead>Call Status</TableHead>
                     <TableHead>Last Called</TableHead>
+                    <TableHead>Notes</TableHead>
                     <TableHead>Actions</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -173,6 +174,15 @@ const CallsTracking = () => {
                         </Select>
                       </TableCell>
                       <TableCell className="text-sm">{record.lastCalled}</TableCell>
+                      <TableCell className="text-sm max-w-[200px]">
+                        {callNotes[record.id] ? (
+                          <div className="truncate text-muted-foreground">
+                            {callNotes[record.id]}
+                          </div>
+                        ) : (
+                          <span className="text-muted-foreground/50 italic">No notes</span>
+                        )}
+                      </TableCell>
                       <TableCell>
                         <Dialog
                           open={notesDialogs[record.id] || false}

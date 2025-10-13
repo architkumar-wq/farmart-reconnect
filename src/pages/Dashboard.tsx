@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Search, Filter, ListChecks } from "lucide-react";
+import { Search, ListChecks } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import SingleCardView from "@/components/SingleCardView";
 import NotificationPanel from "@/components/NotificationPanel";
 
@@ -13,7 +12,6 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState("calls");
-  const [callStatusFilter, setCallStatusFilter] = useState("assigned");
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-accent/30 to-background">
@@ -40,29 +38,17 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Search and Filters */}
+        {/* Search */}
         <Card>
           <CardHeader>
-            <div className="flex flex-col md:flex-row md:items-center gap-4">
-              <div className="flex-1 relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  placeholder="Search by Supplier ID, Name, or Phone Number..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
-              <Select value={callStatusFilter} onValueChange={setCallStatusFilter}>
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Call Status" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="assigned">Call Assigned</SelectItem>
-                  <SelectItem value="done">Call Done</SelectItem>
-                  <SelectItem value="not_picked">Not Picked Up</SelectItem>
-                </SelectContent>
-              </Select>
+            <div className="flex-1 relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search by Supplier ID, Name, or Phone Number..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10"
+              />
             </div>
           </CardHeader>
         </Card>
@@ -75,7 +61,7 @@ const Dashboard = () => {
           </TabsList>
 
           <TabsContent value="calls" className="space-y-4">
-            <SingleCardView searchQuery={searchQuery} callStatusFilter={callStatusFilter} />
+            <SingleCardView searchQuery={searchQuery} />
           </TabsContent>
 
           <TabsContent value="notifications" className="space-y-4">
