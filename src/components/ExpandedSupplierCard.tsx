@@ -25,11 +25,6 @@ const ExpandedSupplierCard = ({ supplier, callStatus, onCallStatusChange, onNote
   const [callNotes, setCallNotes] = useState("");
   const [notesDialogOpen, setNotesDialogOpen] = useState(false);
 
-  const getPriorityBadge = (priority: string) => {
-    if (priority === "high") return <Badge variant="destructive">High Priority</Badge>;
-    return <Badge variant="secondary">Medium</Badge>;
-  };
-
   const getStatusBadge = (status: string) => {
     const statusMap: Record<string, { label: string; variant: "default" | "secondary" | "destructive" | "outline" }> = {
       priority: { label: "To Contact", variant: "default" },
@@ -64,7 +59,6 @@ const ExpandedSupplierCard = ({ supplier, callStatus, onCallStatusChange, onNote
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-2 flex-wrap">
                 <h3 className="text-xl font-semibold">{supplier.name}</h3>
-                {getPriorityBadge(supplier.priority)}
                 {getStatusBadge(supplier.status)}
               </div>
               <div className="flex items-center gap-4 text-sm text-muted-foreground flex-wrap">

@@ -190,9 +190,19 @@ const LeadsAssigned = () => {
                     {categoryLeads.length > 0 ? (
                       <LeadsTable leads={categoryLeads} category={category.key} />
                     ) : (
-                      <p className="text-sm text-muted-foreground text-center py-8">
-                        No leads in this category yet
-                      </p>
+                      <div className="text-center py-8 space-y-4">
+                        <p className="text-sm text-muted-foreground">
+                          No leads in this category yet
+                        </p>
+                        <Button 
+                          onClick={() => setAddSupplierOpen(true)}
+                          variant="outline"
+                          size="sm"
+                        >
+                          <Plus className="h-4 w-4 mr-2" />
+                          Add Supplier to {category.name}
+                        </Button>
+                      </div>
                     )}
                   </CardContent>
                 </Card>

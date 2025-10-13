@@ -1,14 +1,17 @@
+import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { ArrowLeft, Phone, MessageSquare, User, MapPin, Calendar, TrendingUp, Package } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { ArrowLeft, Phone, User, MapPin, Calendar, TrendingUp, Package, MessageCircle } from "lucide-react";
 
 const SupplierDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [callDialogOpen, setCallDialogOpen] = useState(false);
 
   // Mock data - in real app this would be fetched based on ID
   const supplier = {
@@ -23,6 +26,13 @@ const SupplierDetail = () => {
     lastTransactionDate: "July 2024",
     totalTransactions: 12,
     totalVolume: "150 tons",
+    registeredOnApp: true,
+    onAppSince: "June 2023",
+    onOSSince: "May 2023",
+    totalBusinessDone: "₹42.5L",
+    totalVolumeDone: "150 tonnes",
+    gtvPOs: 8,
+    gmvPOs: 4,
     aiSummary: "This supplier was onboarded in May 2023 and last supplied 25 tons of Maize in July 2024 to Farmart and primarily sold this to Mahesh Edible. Most of the orders were GMV and handled by PA - Abhishek.",
     pastConversations: [
       {
@@ -59,16 +69,10 @@ const SupplierDetail = () => {
               {supplier.location}
             </p>
           </div>
-          <div className="flex gap-2">
-            <Button variant="outline">
-              <MessageSquare className="h-4 w-4 mr-2" />
-              Message
-            </Button>
-            <Button>
-              <Phone className="h-4 w-4 mr-2" />
-              Call Now
-            </Button>
-          </div>
+          <Button onClick={() => setCallDialogOpen(true)}>
+            <Phone className="h-4 w-4 mr-2" />
+            Call Now
+          </Button>
         </div>
 
         {/* AI Summaries */}
@@ -88,7 +92,7 @@ const SupplierDetail = () => {
           <Card className="border-l-4 border-l-secondary">
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
-                <MessageSquare className="h-5 w-5 text-secondary" />
+                <MessageCircle className="h-5 w-5 text-secondary" />
                 Past Conversation Summary
               </CardTitle>
             </CardHeader>
@@ -126,6 +130,34 @@ const SupplierDetail = () => {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">Registered on App</p>
+                <p className="font-semibold">{supplier.registeredOnApp ? "Yes" : "No"}</p>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">On App Since</p>
+                <p className="font-semibold">{supplier.onAppSince}</p>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">On OS Since</p>
+                <p className="font-semibold">{supplier.onOSSince}</p>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">Total Business Done</p>
+                <p className="font-semibold text-success">{supplier.totalBusinessDone}</p>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">Total Volume Done</p>
+                <p className="font-semibold">{supplier.totalVolumeDone}</p>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">GTV PO's</p>
+                <p className="font-semibold">{supplier.gtvPOs}</p>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">GMV PO's</p>
+                <p className="font-semibold">{supplier.gmvPOs}</p>
+              </div>
               <div>
                 <p className="text-sm text-muted-foreground mb-1">Onboarded On</p>
                 <p className="font-semibold flex items-center gap-2">
@@ -211,6 +243,26 @@ const SupplierDetail = () => {
             </Table>
           </CardContent>
         </Card>
+
+        {/* Call Overlay Dialog */}
+        <Dialog open={callDialogOpen} onOpenChange={setCallDialogOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Call {supplier.name}</DialogTitle>
+              <DialogDescription>
+                Click the number below to initiate a call
+              </DialogDescription>
+            </DialogHeader>
+            <div className="py-6 text-center">
+              <a 
+                href={`tel:${supplier.phone}`}
+                className="text-3xl font-bold text-primary hover:underline"
+              >
+                {supplier.phone}
+              </a>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );

@@ -35,7 +35,6 @@ const LeadsTable = ({ leads, category }: LeadsTableProps) => {
             <TableHead>Location</TableHead>
             <TableHead>Crop</TableHead>
             <TableHead>PO/DO Number</TableHead>
-            <TableHead>Priority</TableHead>
             <TableHead>Assigned To</TableHead>
             <TableHead>AI Reason</TableHead>
             <TableHead>Actions</TableHead>
@@ -50,13 +49,6 @@ const LeadsTable = ({ leads, category }: LeadsTableProps) => {
               <TableCell className="font-mono text-xs">
                 {lead.poNumber || "N/A"}
                 {lead.doNumber && <div>{lead.doNumber}</div>}
-              </TableCell>
-              <TableCell>
-                {lead.priority === "high" ? (
-                  <Badge variant="destructive">High</Badge>
-                ) : (
-                  <Badge variant="secondary">Medium</Badge>
-                )}
               </TableCell>
               <TableCell className="text-sm">{lead.assignedTo}</TableCell>
               <TableCell className="text-sm max-w-xs">

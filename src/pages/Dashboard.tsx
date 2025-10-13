@@ -13,7 +13,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState("calls");
-  const [callStatusFilter, setCallStatusFilter] = useState("all");
+  const [callStatusFilter, setCallStatusFilter] = useState("assigned");
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-accent/30 to-background">
@@ -32,6 +32,10 @@ const Dashboard = () => {
             <Button variant="outline" onClick={() => navigate("/leads")}>
               <ListChecks className="mr-2 h-4 w-4" />
               Leads by Criteria
+            </Button>
+            <Button variant="outline" onClick={() => navigate("/cs-metrics")}>
+              <ListChecks className="mr-2 h-4 w-4" />
+              CS Metrics
             </Button>
           </div>
         </div>
@@ -54,7 +58,6 @@ const Dashboard = () => {
                   <SelectValue placeholder="Call Status" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All Status</SelectItem>
                   <SelectItem value="assigned">Call Assigned</SelectItem>
                   <SelectItem value="done">Call Done</SelectItem>
                   <SelectItem value="not_picked">Not Picked Up</SelectItem>

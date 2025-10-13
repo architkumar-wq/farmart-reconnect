@@ -7,6 +7,7 @@ import Dashboard from "./pages/Dashboard";
 import SupplierDetail from "./pages/SupplierDetail";
 import LeadsAssigned from "./pages/LeadsAssigned";
 import CallsTracking from "./pages/CallsTracking";
+import CSMetrics from "./pages/CSMetrics";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -21,6 +22,7 @@ const App = () => (
           <Route path="/" element={<Dashboard />} />
           <Route path="/leads" element={<LeadsAssigned />} />
           <Route path="/calls-tracking" element={<CallsTracking />} />
+          <Route path="/cs-metrics" element={<CSMetrics />} />
           <Route path="/supplier/:id" element={<SupplierDetail />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

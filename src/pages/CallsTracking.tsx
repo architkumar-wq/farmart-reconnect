@@ -140,7 +140,6 @@ const CallsTracking = () => {
                     <TableHead>Crop</TableHead>
                     <TableHead>PO/DO Number</TableHead>
                     <TableHead>Assigned To</TableHead>
-                    <TableHead>Priority</TableHead>
                     <TableHead>Call Status</TableHead>
                     <TableHead>Last Called</TableHead>
                     <TableHead>Actions</TableHead>
@@ -158,7 +157,6 @@ const CallsTracking = () => {
                         {record.doNumber && <div>{record.doNumber}</div>}
                       </TableCell>
                       <TableCell className="text-sm">{record.assignedTo}</TableCell>
-                      <TableCell>{getPriorityBadge(record.priority)}</TableCell>
                       <TableCell>
                         <Select
                           value={callStatuses[record.id] || record.callStatus}
