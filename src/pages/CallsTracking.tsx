@@ -22,6 +22,7 @@ const CallsTracking = () => {
       phone: "+91 98765 43210",
       location: "Nashik, Maharashtra",
       crop: "Maize",
+      category: "Seasonal Reactivation",
       assignedTo: "Surbhi Sharma",
       currentPO: "PO-2024-1532",
       doNumber: "DO-2024-0445",
@@ -35,6 +36,7 @@ const CallsTracking = () => {
       phone: "+91 99887 76655",
       location: "Surat, Gujarat",
       crop: "Cotton",
+      category: "Pending Dispatch",
       assignedTo: "Divya Singh",
       currentPO: "PO-2024-1789",
       doNumber: "DO-2024-0556",
@@ -48,6 +50,7 @@ const CallsTracking = () => {
       phone: "+91 98765 11122",
       location: "Warangal, Telangana",
       crop: "Rice",
+      category: "Payment Complete",
       assignedTo: "Abhishek Kumar",
       currentPO: "PO-2024-1654",
       doNumber: "DO-2024-0667",
@@ -61,6 +64,7 @@ const CallsTracking = () => {
       phone: "+91 98765 22233",
       location: "Meerut, Uttar Pradesh",
       crop: "Wheat",
+      category: "Seasonal Reactivation",
       assignedTo: "Surbhi Sharma",
       currentPO: "PO-2024-1421",
       doNumber: "DO-2024-0334",
@@ -74,6 +78,7 @@ const CallsTracking = () => {
       phone: "+91 98765 33344",
       location: "Belgaum, Karnataka",
       crop: "Sugarcane",
+      category: "Pending Dispatch",
       assignedTo: "Divya Singh",
       currentPO: "PO-2024-1598",
       doNumber: "DO-2024-0598",
@@ -138,6 +143,7 @@ const CallsTracking = () => {
                     <TableHead>Phone</TableHead>
                     <TableHead>Location</TableHead>
                     <TableHead>Crop</TableHead>
+                    <TableHead>Category</TableHead>
                     <TableHead>PO/DO Number</TableHead>
                     <TableHead>Assigned To</TableHead>
                     <TableHead>Call Status</TableHead>
@@ -153,6 +159,11 @@ const CallsTracking = () => {
                       <TableCell className="text-sm">{record.phone}</TableCell>
                       <TableCell className="text-sm">{record.location}</TableCell>
                       <TableCell className="text-sm">{record.crop}</TableCell>
+                      <TableCell>
+                        <Badge variant="outline" className="text-xs">
+                          {record.category}
+                        </Badge>
+                      </TableCell>
                       <TableCell className="font-mono text-xs">
                         {record.currentPO}
                         {record.doNumber && <div>{record.doNumber}</div>}

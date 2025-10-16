@@ -6,12 +6,14 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { ArrowLeft, Phone, User, MapPin, Calendar, TrendingUp, Package, MessageCircle } from "lucide-react";
+import { ArrowLeft, Phone, User, MapPin, Calendar, TrendingUp, Package, MessageCircle, Bell } from "lucide-react";
+import TriggerNotificationDialog from "@/components/TriggerNotificationDialog";
 
 const SupplierDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [callDialogOpen, setCallDialogOpen] = useState(false);
+  const [notificationDialogOpen, setNotificationDialogOpen] = useState(false);
 
   // Mock data - in real app this would be fetched based on ID
   const supplier = {
@@ -69,10 +71,16 @@ const SupplierDetail = () => {
               {supplier.location}
             </p>
           </div>
-          <Button onClick={() => setCallDialogOpen(true)}>
-            <Phone className="h-4 w-4 mr-2" />
-            Call Now
-          </Button>
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={() => setNotificationDialogOpen(true)}>
+              <Bell className="h-4 w-4 mr-2" />
+              Notify Supplier
+            </Button>
+            <Button onClick={() => setCallDialogOpen(true)}>
+              <Phone className="h-4 w-4 mr-2" />
+              Call Now
+            </Button>
+          </div>
         </div>
 
         {/* AI Summaries */}
@@ -263,6 +271,14 @@ const SupplierDetail = () => {
             </div>
           </DialogContent>
         </Dialog>
+
+        {/* Notification Dialog */}
+        <TriggerNotificationDialog
+          open={notificationDialogOpen}
+          onOpenChange={setNotificationDialogOpen}
+          supplierName={supplier.name}
+          supplierId={Number(id)}
+        />
       </div>
     </div>
   );

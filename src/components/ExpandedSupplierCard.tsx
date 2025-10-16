@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Phone, Eye, MapPin, Sprout, Bell, User, Calendar, Package, ChevronDown, ChevronUp } from "lucide-react";
+import { Phone, Eye, MapPin, Sprout, Bell, User, Calendar, Package, ChevronDown, ChevronUp, Tag } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
@@ -74,6 +74,14 @@ const ExpandedSupplierCard = ({ supplier, callStatus, onCallStatusChange, onNote
                   <Phone className="h-3 w-3" />
                   {supplier.phone}
                 </span>
+                {supplier.category && (
+                  <span className="flex items-center gap-1">
+                    <Tag className="h-3 w-3" />
+                    <Badge variant="outline" className="text-xs">
+                      {supplier.category}
+                    </Badge>
+                  </span>
+                )}
               </div>
             </div>
             <div className="flex gap-2 items-center">

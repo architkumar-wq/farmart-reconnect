@@ -184,8 +184,23 @@ const LeadsAssigned = () => {
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-sm text-muted-foreground mb-4">
-                      Total Leads: <span className="font-semibold text-foreground">{categoryLeads.length}</span>
+                    <div className="grid grid-cols-3 gap-4 mb-4 p-4 bg-muted/50 rounded-lg">
+                      <div>
+                        <p className="text-xs text-muted-foreground">Total Leads</p>
+                        <p className="text-2xl font-bold text-foreground">{categoryLeads.length}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-muted-foreground">Suppliers Contacted</p>
+                        <p className="text-2xl font-bold text-success">
+                          {categoryLeads.filter(l => l.assignedTo).length}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-muted-foreground">Pending</p>
+                        <p className="text-2xl font-bold text-warning">
+                          {categoryLeads.length - categoryLeads.filter(l => l.assignedTo).length}
+                        </p>
+                      </div>
                     </div>
                     {categoryLeads.length > 0 ? (
                       <LeadsTable leads={categoryLeads} category={category.key} />

@@ -13,6 +13,14 @@ const Dashboard = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState("calls");
 
+  const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && searchQuery.trim()) {
+      // For demo, redirect to first supplier that matches
+      // In production, you'd search and redirect to the matching supplier
+      navigate(`/supplier/1`);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-accent/30 to-background">
       <div className="container mx-auto p-6 space-y-6">
@@ -44,9 +52,10 @@ const Dashboard = () => {
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
-                placeholder="Search by Supplier ID, Name, or Phone Number..."
+                placeholder="Search by Supplier ID, Name, or Phone Number... (Press Enter)"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={handleSearch}
                 className="pl-10"
               />
             </div>
